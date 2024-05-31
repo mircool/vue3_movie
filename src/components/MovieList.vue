@@ -3,19 +3,12 @@ import {ref, onMounted, watch} from 'vue'
 import {getMovies} from '@/api'
 import Paging from "@/components/Paging.vue";
 import {useRoute} from "vue-router";
+import router from "@/router/index.js";
 
 const info = ref([])
 const route = useRoute();
 const currentPage = ref(1);
 
-// 获取电影列表
-const getMovieList = (page) => {
-  getMovies(page).then(res => {
-    info.value = res.data
-  }).catch(err => {
-    console.log(err)
-  })
-}
 
 onMounted(() => {
   // 获取当前页码
@@ -33,6 +26,15 @@ watch(() => route.query, (newQuery) => {
   })
 });
 
+// 获取电影列表
+const getMovieList = (page) => {
+  getMovies(page).then(res => {
+    info.value = res.data
+  }).catch(err => {
+    console.log(err)
+  })
+}
+
 
 </script>
 
@@ -42,7 +44,7 @@ watch(() => route.query, (newQuery) => {
       <div id=movie-list class="p-2 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
 
         <div class=movie v-for="movie in info.results" :key="movie.id">
-          <a href='http://127.0.0.1:8080/movie/2'>
+          <a :href="'/movie/' + movie.id">
             <div class=relative>
               <div style=min-height:259px;max-height:300px;height:274px>
                 <img
