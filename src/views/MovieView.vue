@@ -52,7 +52,16 @@ onMounted(() => {
                 <li>首播: {{ movie.release_date }}</li>
                 <li>集数: {{ movie.duration }}</li>
                 <li>类型: {{ movie.types }}</li>
-                <li>制片国家/地区: <span>{{ movie.region }}</span></li>
+                <li>制片国家/地区:
+                  <span v-if="movie.region===1">中国</span>
+                  <span v-else-if="movie.region===2">美国</span>
+                  <span v-else-if="movie.region===3">日本</span>
+                  <span v-else-if="movie.region===4">韩国</span>
+                  <span v-else-if="movie.region===5">英国</span>
+                  <span v-else-if="movie.region===6">法国</span>
+                  <span v-else-if="movie.region===7">德国</span>
+                  <span v-else>其他</span>
+                </li>
                 <li>又名: {{ movie.alternate_name }}</li>
                 <li>豆瓣评分: {{ movie.rate }}</li>
               </ul>
@@ -66,7 +75,7 @@ onMounted(() => {
               </div>
             </div>
           </div>
-          <div id="download_info" class="rounded bg-white mx-4 mt-4 py-6">
+          <div v-if="movie.download_info" id="download_info" class="rounded bg-white mx-4 mt-4 py-6">
             <h1 class="text-lg mb-6 font-semibold px-6">网盘地址</h1>
             <div class="px-6">
               <div>

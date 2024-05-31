@@ -69,7 +69,7 @@ const goToPage = (page) => {
 
 <template>
   <div class="flex items-center justify-center text-gray-500 pb-4 mb-12">
-    <a v-if="props.info.previous" @click="goToPage(prePage)" class="page-link" href="javascript:void(0)">
+    <a v-if="props.info.previous" class="page-link" @click="goToPage(prePage)">
       <button class="w-8 h-8 rounded mx-1 my-1 bg-gray-300">
         <svg xmlns='http://www.w3.org/2000/svg' class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd"
@@ -93,16 +93,7 @@ const goToPage = (page) => {
       </button>
     </a>
 
-    <!--    <a class="page-link">-->
-    <!--      <button class="w-8 h-8 rounded mx-1 my-1 bg-gray-300">2</button>-->
-    <!--    </a>-->
-    <!--    <a class="page-link">-->
-    <!--      <button class="w-8 h-8 rounded mx-1 my-1 bg-gray-300">...</button>-->
-    <!--    </a>-->
-    <!--    <a class="page-link">-->
-    <!--      <button class="w-8 h-8 rounded mx-1 my-1 bg-gray-300">45</button>-->
-    <!--    </a>-->
-    <a v-if="props.info.next" @click="goToPage(nextPage)" class="page-link" href="javascript:void(0)">
+    <a v-if="props.info.next" class="page-link" @click="goToPage(nextPage)">
       <button class="w-8 h-8 rounded mx-1 my-1 bg-gray-300">
         <svg xmlns='http://www.w3.org/2000/svg' class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd"
