@@ -12,8 +12,7 @@ import Paging from "@/components/Paging.vue";
     <Header/>
     <!--    main-->
     <MovieList/>
-    <!--    paging-->
-    <Paging/>
+
     <!--footer-->
     <Footer/>
   </div>

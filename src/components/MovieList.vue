@@ -1,19 +1,37 @@
 <script setup>
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, watch} from 'vue'
 import {getMovies} from '@/api'
+import Paging from "@/components/Paging.vue";
+import {useRoute} from "vue-router";
 
 const info = ref([])
+const route = useRoute();
+const currentPage = ref(1);
 
 // 获取电影列表
-const getMovieList = () => {
-  getMovies().then(res => {
+const getMovieList = (page) => {
+  getMovies(page).then(res => {
     info.value = res.data
+  }).catch(err => {
+    console.log(err)
   })
 }
 
 onMounted(() => {
-  getMovieList()
+  // 获取当前页码
+  currentPage.value = Number(route.query.page) || 1
+  getMovieList(currentPage.value)
 })
+
+watch(() => route.query, (newQuery) => {
+  currentPage.value = Number(newQuery.page) || 1
+  getMovieList(currentPage.value)
+  // 页面滚动到顶部并添加动画
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",  // 平滑滚动
+  })
+});
 
 
 </script>
@@ -23,7 +41,7 @@ onMounted(() => {
     <div class="w-full px-2" style=max-width:1440px>
       <div id=movie-list class="p-2 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
 
-        <div class=movie v-for="movie in info" :key="movie.id">
+        <div class=movie v-for="movie in info.results" :key="movie.id">
           <a href='http://127.0.0.1:8080/movie/2'>
             <div class=relative>
               <div style=min-height:259px;max-height:300px;height:274px>
@@ -53,6 +71,8 @@ onMounted(() => {
       </div>
     </div>
   </div>
+
+  <Paging :info="info"/>
 
 </template>
 
