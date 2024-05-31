@@ -1,4 +1,17 @@
 <script setup>
+import {ref} from "vue";
+import router from '../router'
+
+const keyword = ref('');
+
+// 搜索电影
+const search = () => {
+  keyword.value = keyword.value.trim();
+  router.push({
+    name: 'home',
+    query: {search: keyword.value}
+  });
+}
 
 </script>
 
@@ -15,7 +28,7 @@
           <div id=nav class=px-4>
             <ul class="hidden md:flex items-center space-x-4 ml-2">
               <li>
-                <a href=/>首页</a>
+                <a href='/'>首页</a>
               </li>
               <li>
                 <a href=http://127.0.0.1:8080>热门</a>
@@ -24,7 +37,7 @@
                   class="dropdown-menu flex items-center relative hover: cursor-pointer select-none">
                 电影
                 <span>
-                                            <svg xmlns=http://www.w3.org/2000/svg class="h-5 w-5" viewBox="0 0 20 20"
+                                            <svg xmlns='http://www.w3.org/2000/svg' class="h-5 w-5" viewBox="0 0 20 20"
                                                  fill=currentColor>
                                                 <path fill-rule=evenodd
                                                       d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -53,7 +66,7 @@
                   class="dropdown-menu flex items-center relative hover: cursor-pointer select-none">
                 综艺
                 <span>
-                                            <svg xmlns=http://www.w3.org/2000/svg class="h-5 w-5" viewBox="0 0 20 20"
+                                            <svg xmlns='http://www.w3.org/2000/svg' class="h-5 w-5" viewBox="0 0 20 20"
                                                  fill=currentColor>
                                                 <path fill-rule=evenodd
                                                       d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -68,7 +81,7 @@
                   class="dropdown-menu flex items-center relative hover: cursor-pointer select-none">
                 动漫
                 <span>
-                                            <svg xmlns=http://www.w3.org/2000/svg class="h-5 w-5" viewBox="0 0 20 20"
+                                            <svg xmlns='http://www.w3.org/2000/svg' class="h-5 w-5" viewBox="0 0 20 20"
                                                  fill=currentColor>
                                                 <path fill-rule=evenodd
                                                       d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -83,7 +96,7 @@
                   class="dropdown-menu flex items-center relative hover: cursor-pointer select-none">
                 纪录片
                 <span>
-                                            <svg xmlns=http://www.w3.org/2000/svg class="h-5 w-5" viewBox="0 0 20 20"
+                                            <svg xmlns='http://www.w3.org/2000/svg' class="h-5 w-5" viewBox="0 0 20 20"
                                                  fill=currentColor>
                                                 <path fill-rule=evenodd
                                                       d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -98,7 +111,7 @@
                   class="dropdown-menu flex items-center relative hover: cursor-pointer select-none">
                 短片
                 <span>
-                                            <svg xmlns=http://www.w3.org/2000/svg class="h-5 w-5" viewBox="0 0 20 20"
+                                            <svg xmlns='http://www.w3.org/2000/svg' class="h-5 w-5" viewBox="0 0 20 20"
                                                  fill=currentColor>
                                                 <path fill-rule=evenodd
                                                       d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -114,14 +127,16 @@
         </div>
         <div class="flex items-center space-x-2">
           <div class="relative shrink">
-            <form>
-              <input type=text name=keyword
+            <form @submit.prevent='search'>
+              <input v-model="keyword"
+                     type='text'
+                     name='keyword'
                      class="outline-0 h-9 rounded bg-primary-700 border border-gray-600 placeholder-gray-400 w-64 px-2 py-1 max-w-[180px]"
                      placeholder=请输入关键词 value>
               <div class="absolute top-0 right-0 flex items-center h-full">
                 <div class="rounded text-xs text-gray-400 px-2 mr-2">
                   <button>
-                    <svg xmlns=http://www.w3.org/2000/svg class="h-4 w-4" fill=none
+                    <svg xmlns='http://www.w3.org/2000/svg' class="h-4 w-4" fill=none
                          viewBox="0 0 24 24" stroke=currentColor stroke-width=2>
                       <path stroke-linecap=round stroke-linejoin=round
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>

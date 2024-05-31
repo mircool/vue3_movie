@@ -7,18 +7,14 @@ import router from "@/router/index.js";
 
 const info = ref([])
 const route = useRoute();
-const currentPage = ref(1);
 
 
 onMounted(() => {
-  // 获取当前页码
-  currentPage.value = Number(route.query.page) || 1
-  getMovieList(currentPage.value)
+  getMovieList()
 })
 
 watch(() => route.query, (newQuery) => {
-  currentPage.value = Number(newQuery.page) || 1
-  getMovieList(currentPage.value)
+  getMovieList()
   // 页面滚动到顶部并添加动画
   window.scrollTo({
     top: 0,
@@ -27,15 +23,24 @@ watch(() => route.query, (newQuery) => {
 });
 
 // 获取电影列表
-const getMovieList = (page) => {
-  getMovies(page).then(res => {
+const getMovieList = () => {
+  const page = route.query.page
+  const search = route.query.search
+  // url编码
+  const params = new URLSearchParams()
+  if (page) {
+    params.append('page', page)
+  }
+  if (search) {
+    params.append('name', search)
+  }
+
+  getMovies(params).then(res => {
     info.value = res.data
   }).catch(err => {
     console.log(err)
   })
 }
-
-
 </script>
 
 <template>

@@ -1,8 +1,8 @@
 import instance from "./axios";
 
 // 获取电影列表
-export const getMovies = (page) => {
-    return instance.get(`/api/movies/?page=${page}`);
+export const getMovies = (params) => {
+    return instance.get('/api/movies?' + params.toString());
 };
 
 // 获取电影详情
