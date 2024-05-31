@@ -1,4 +1,20 @@
 <script setup>
+import {ref, onMounted} from 'vue'
+import {getMovies} from '@/api'
+
+const info = ref([])
+
+// 获取电影列表
+const getMovieList = () => {
+  getMovies().then(res => {
+    info.value = res.data
+  })
+}
+
+onMounted(() => {
+  getMovieList()
+})
+
 
 </script>
 
