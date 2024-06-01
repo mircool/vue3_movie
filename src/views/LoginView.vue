@@ -27,7 +27,7 @@ const loginHandler = () => {
     localStorage.setItem('token', token)
     localStorage.setItem('refreshToken', refreshToken)
     localStorage.setItem('username', username)
-    localStorage.setItem('expiredTime', String(Date.now() + (1 * 60 * 1000)))
+    localStorage.setItem('expiredTime', String(Date.now() + (5 * 60 * 1000)))
 
     successMessage('登录成功')
     router.push('/')

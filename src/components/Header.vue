@@ -3,9 +3,11 @@ import {ref, onMounted} from "vue";
 import router from '@/router'
 import {useUserStore} from '@/stores/user'
 import Category from "@/components/Category.vue";
+import {refreshToken} from "@/api";
+import {getLocalStorage, setLocalStorage} from "@/utils/localStorage.js";
 
 const keyword = ref('');  // 搜索关键字
-const username = ref(''); // 用户名
+const username = ref(getLocalStorage('username')); // 用户名
 
 const userStore = useUserStore()
 
@@ -18,16 +20,32 @@ const search = () => {
   });
 }
 
-onMounted(() => {
-  username.value = localStorage.getItem('username') || '';
-  // 判断登录状态
+// 封装检查和刷新token的操作
+const checkAndRefreshToken = () => {
   const currentTime = Date.now();
-  const expiredTime = localStorage.getItem('expiredTime');
-  if (currentTime > Number(expiredTime)) {
-    userStore.setLoginStatus(false);
-  } else if (localStorage.getItem('token')) { // 有token
+  const expiredTime = Number(getLocalStorage('expiredTime'));
+  const refresh_token = getLocalStorage('refreshToken');
+
+  if (expiredTime > currentTime && getLocalStorage('token')) {
     userStore.setLoginStatus(true);
+  } else {
+    if (refresh_token) {
+      refreshToken({refresh: refresh_token}).then(res => {
+        const token = res.data.access;
+        setLocalStorage('token', token);
+        setLocalStorage('expiredTime', String(Date.now() + (5 * 60 * 1000)))
+        userStore.setLoginStatus(true);
+      }).catch(() => {
+        userStore.setLoginStatus(false);
+      })
+    } else {
+      userStore.setLoginStatus(false);
+    }
   }
+}
+
+onMounted(() => {
+  checkAndRefreshToken();
 })
 
 </script>
