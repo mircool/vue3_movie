@@ -20,7 +20,22 @@ export const register = (data) => {
     return instance.post('/api/users/', data);
 };
 
+// 登录账号
+export const login = (data) => {
+    return instance.post('/api/jwt/create/', data);
+};
+
 // 激活账号
 export const activate = (data) => {
     return instance.post('/api/users/activation/', data);
+};
+
+// 刷新token
+export const refreshToken = (data) => {
+    return instance.post('/api/jwt/refresh/', data);
+};
+
+// 验证token
+export const verifyToken = (data) => {
+    return instance.post('/api/jwt/verify/', data);
 };

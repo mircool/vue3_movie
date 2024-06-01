@@ -113,7 +113,7 @@ const user_register = () => {
           </div>
           <div class="text-center text-sm my-2">
             已有账号?
-            <a class="text-blue-500" href="http://127.0.0.1:8080/login/">去登录</a>
+            <a class="text-blue-500" href="/login">去登录</a>
           </div>
         </form>
       </div>
