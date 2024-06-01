@@ -14,3 +14,8 @@ export const getMovie = (id) => {
 export const getCategories = () => {
     return instance.get('/api/categories');
 };
+
+// 注册账号
+export const register = (data) => {
+    return instance.post('/api/users/', data);
+};
