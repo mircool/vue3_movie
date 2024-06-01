@@ -49,8 +49,8 @@ const search = () => {
             </form>
           </div>
           <div class="text-white flex-shrink-0 pr-2">
-            <a href='http://127.0.0.1:8080/login'>登录</a>
-            / <a href='http://127.0.0.1:8080/register'>注册</a>
+            <a href='/login'>登录</a>
+            / <a href='/register'>注册</a>
           </div>
         </div>
       </div>

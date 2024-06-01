@@ -19,3 +19,8 @@ export const getCategories = () => {
 export const register = (data) => {
     return instance.post('/api/users/', data);
 };
+
+// 激活账号
+export const activate = (data) => {
+    return instance.post('/api/users/activation/', data);
+};

@@ -2,6 +2,9 @@
 import {register} from "@/api";
 import {ref} from "vue";
 import {errorMessage, successMessage} from "@/utils/message.js";
+import {useRouter} from 'vue-router'
+
+const router = useRouter()
 
 
 const form = ref({
@@ -32,6 +35,9 @@ const user_register = () => {
   register({username, password, email})
       .then(() => {
         successMessage('注册成功')
+        setTimeout(() => {
+          router.push('/login')
+        }, 1500)
       })
       .catch(err => {
             const error = err.response.data
