@@ -9,3 +9,8 @@ export const getMovies = (params) => {
 export const getMovie = (id) => {
     return instance.get(`/api/movies/${id}`);
 };
+
+// 获取分类列表
+export const getCategories = () => {
+    return instance.get('/api/categories');
+};
