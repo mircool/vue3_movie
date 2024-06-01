@@ -22,6 +22,12 @@ const loginHandler = () => {
     return
   }
   login({username, password}).then(res => {
+    const token = res.data.access
+    const refreshToken = res.data.refresh
+    localStorage.setItem('token', token)
+    localStorage.setItem('refreshToken', refreshToken)
+    localStorage.setItem('username', username)
+
     successMessage('登录成功')
     router.push('/')
   }).catch(err => {
