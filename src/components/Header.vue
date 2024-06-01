@@ -1,10 +1,13 @@
 <script setup>
 import {ref, onMounted} from "vue";
 import router from '@/router'
-import {getCategories} from '@/api'
+import {useUserStore} from '@/stores/user'
 import Category from "@/components/Category.vue";
 
 const keyword = ref('');  // 搜索关键字
+const username = ref(''); // 用户名
+
+const userStore = useUserStore()
 
 // 搜索电影
 const search = () => {
@@ -15,6 +18,17 @@ const search = () => {
   });
 }
 
+onMounted(() => {
+  username.value = localStorage.getItem('username') || '';
+  // 判断登录状态
+  const currentTime = Date.now();
+  const expiredTime = localStorage.getItem('expiredTime');
+  if (currentTime > Number(expiredTime)) {
+    userStore.setLoginStatus(false);
+  } else if (localStorage.getItem('token')) { // 有token
+    userStore.setLoginStatus(true);
+  }
+})
 
 </script>
 
@@ -48,7 +62,11 @@ const search = () => {
               </div>
             </form>
           </div>
-          <div class="text-white flex-shrink-0 pr-2">
+          <div v-if="userStore.isLogin" class="text-white">
+            <span>{{ username }}</span>
+            <button @click="userStore.logout" class="text-white mx-3">退出</button>
+          </div>
+          <div v-else class="text-white flex-shrink-0 pr-2">
             <a href='/login'>登录</a>
             / <a href='/register'>注册</a>
           </div>
