@@ -39,3 +39,13 @@ export const refreshToken = (data) => {
 export const verifyToken = (data) => {
     return instance.post('/api/jwt/verify/', data);
 };
+
+// 重置密码
+export const resetPassword = (data) => {
+    return instance.post('/api/users/reset_password/', data);
+};
+
+// 重置密码确认
+export const resetPasswordConfirm = (data) => {
+    return instance.post('/api/users/reset_password_confirm/', data);
+};

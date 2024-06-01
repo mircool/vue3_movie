@@ -25,6 +25,16 @@ const router = createRouter({
             component: () => import('../views/LoginView.vue')
         },
         {
+            path: '/reset_password',
+            name: 'reset_password',
+            component: () => import('../views/ResetPasswordView.vue')
+        },
+        {
+            path: '/reset_password_confirm/:uid/:token',
+            name: 'reset_password_confirm',
+            component: () => import('../views/ResetPasswordConfirmView.vue')
+        },
+        {
             path: '/activate/:uid/:token',
             name: 'activate',
             component: () => import('../views/ActivateView.vue')
