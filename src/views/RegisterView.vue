@@ -4,7 +4,12 @@ import {ref} from "vue";
 import {errorMessage, successMessage} from "@/utils/message.js";
 
 
-const form = ref({})  // 表单数据
+const form = ref({
+  username: 'ynyjyz1',
+  password: '123456',
+  confirm_password: '123456',
+  email: 'ynyjyz@163.com'
+})
 
 // 注册
 const user_register = () => {
@@ -24,17 +29,17 @@ const user_register = () => {
     return
   }
 
-  register({username, password, email}).then(res => {
-    console.log('res', res)
-    if (res.code === 200) {
-      successMessage('注册成功')
-    } else {
-      errorMessage('注册失败')
-    }
-  }).catch(err => {
-        errorMessage('注册失败')
-      }
-  )
+  register({username, password, email})
+      .then(() => {
+        successMessage('注册成功')
+      })
+      .catch(err => {
+            const error = err.response.data
+            for (let key in error) {
+              errorMessage(error[key][0])
+            }
+          }
+      )
 }
 
 
