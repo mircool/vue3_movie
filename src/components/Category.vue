@@ -3,6 +3,17 @@ import {getCategories} from "@/api/index.js";
 import {onMounted, ref} from "vue";
 
 const categories = ref([]) // 分类列表
+
+const regions = [
+  {id: 1, name: '中国'},
+  {id: 2, name: '美国'},
+  {id: 3, name: '日本'},
+  {id: 4, name: '韩国'},
+  {id: 5, name: '英国'},
+  {id: 6, name: '法国'},
+  {id: 7, name: '德国'},
+  {id: 8, name: '其他'},
+]
 // 获取分类列表
 const fetchCategories = async () => {
   const res = await getCategories();
@@ -43,15 +54,15 @@ onMounted(() => {
             class="dropdown-item-content absolute top-9 w-32 transition ease-in-out delay-150 z-50 sf-hidden">
           <ul class="bg-primary-700 py-2 px-4 rounded">
             <li class="plx-2 py-2">
-              <a href="">全部</a>
-            </li>
-            <li class="plx-2 py-2">
-              <a href="">最新</a>
-            </li>
-            <li class="plx-2 py-2">
-              <a href="">最热</a>
+              <a :href="'/?category='+category.id" class="hover:text-blue-500 block">全部</a>
             </li>
 
+            <li v-for="region in regions" :key="region.id" class="plx-2 py-2">
+              <a :href="'/?category='+category.id+'&region='+region.id"
+                 class="hover:text-blue-500 block h-full w-full">
+                {{ region.name }}
+              </a>
+            </li>
 
           </ul>
         </div>

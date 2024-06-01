@@ -24,15 +24,23 @@ watch(() => route.query, (newQuery) => {
 
 // 获取电影列表
 const getMovieList = () => {
-  const page = route.query.page
-  const search = route.query.search
+  const page = route.query.page   // 当前页码
+  const search = route.query.search   // 搜索关键字
+  const category = route.query.category  // 分类
+  const region = route.query.region // 地区
   // url编码
   const params = new URLSearchParams()
   if (page) {
-    params.append('page', page)
+    params.append('page', String(page))
   }
   if (search) {
-    params.append('name', search)
+    params.append('name', String(search))
+  }
+  if (category) {
+    params.append('category', String(category))
+  }
+  if (region) {
+    params.append('region', String(region))
   }
 
   getMovies(params).then(res => {

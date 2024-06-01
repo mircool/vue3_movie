@@ -59,8 +59,13 @@ const goToPage = (page) => {
     currentPage.value = page < 1 ? 1 : totalPage.value;
   } else {
     currentPage.value = page;
-    // 发起路由跳转到指定页码
-    router.push({query: {page: page}}).catch(err => {
+    // 获取当前的查询参数
+    const currentQuery = {...router.currentRoute.value.query};
+    // 修改页码,把page转换为字符串
+    currentQuery.page = String(page);
+    // 发起路由跳转到指定页码，保留其他查询参数
+    router.push({query: currentQuery}).catch(err => {
+      console.log(err);
     });
   }
 }
