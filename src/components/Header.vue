@@ -44,6 +44,13 @@ const checkAndRefreshToken = () => {
   }
 }
 
+// 退出登录
+const logout = () => {
+  userStore.setLoginStatus(false);
+  localStorage.clear()
+  router.push('/login');
+}
+
 onMounted(() => {
   checkAndRefreshToken();
 })
@@ -81,8 +88,10 @@ onMounted(() => {
             </form>
           </div>
           <div v-if="userStore.isLogin" class="text-white">
-            <span>{{ username }}</span>
-            <button @click="userStore.logout" class="text-white mx-3">退出</button>
+            <span>
+              <a href="/profile">{{ username }}</a>
+            </span>
+            <button @click="logout" class="text-white mx-3">退出</button>
           </div>
           <div v-else class="text-white flex-shrink-0 pr-2">
             <a href='/login'>登录</a>

@@ -3,6 +3,10 @@ import {ref} from 'vue'
 import {useRouter} from 'vue-router'
 import {login} from '@/api'
 import {errorMessage, successMessage} from "@/utils/message.js";
+import {useUserStore} from '@/stores/user'
+import {setLocalStorageAsync} from "@/utils/localStorage.js";
+
+const userStore = useUserStore()
 
 const router = useRouter()
 
@@ -11,7 +15,7 @@ const form = ref({
   password: '123456789++'
 })
 
-const loginHandler = () => {
+const loginHandler = async () => {
   const {username, password} = form.value
   if (!username) {
     errorMessage('请输入用户名')
@@ -21,16 +25,28 @@ const loginHandler = () => {
     errorMessage('请输入密码')
     return
   }
-  login({username, password}).then(res => {
+  login({username, password}).then(async (res) => {
     const token = res.data.access
     const refreshToken = res.data.refresh
-    localStorage.setItem('token', token)
-    localStorage.setItem('refreshToken', refreshToken)
-    localStorage.setItem('username', username)
-    localStorage.setItem('expiredTime', String(Date.now() + (5 * 60 * 1000)))
+    await setLocalStorageAsync('token', token)
+    await setLocalStorageAsync('refreshToken', refreshToken)
+    await setLocalStorageAsync('username', username)
+    await setLocalStorageAsync('expiredTime', String(Date.now() + (5 * 60 * 1000)))
+
+    userStore.setLoginStatus(true)
 
     successMessage('登录成功')
-    router.push('/')
+    // 查询参数
+    const query = router.currentRoute.value.query
+    if (query.redirect) {
+      router.push(query.redirect).catch(err => {
+        console.error(err);
+      });
+    } else {
+      router.push('/').catch(err => {
+        console.error(err);
+      });
+    }
   }).catch(err => {
     const {data} = err.response
     for (let key in data) {

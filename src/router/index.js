@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import {useUserStore} from '@/stores/user'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -17,12 +18,14 @@ const router = createRouter({
         {
             path: '/register',
             name: 'register',
-            component: () => import('../views/RegisterView.vue')
+            component: () => import('../views/RegisterView.vue'),
+            meta: {requiresGuest: true} // 只有未登录用户才能访问
         },
         {
             path: '/login',
             name: 'login',
-            component: () => import('../views/LoginView.vue')
+            component: () => import('../views/LoginView.vue'),
+            meta: {requiresGuest: true}
         },
         {
             path: '/reset_password',
@@ -40,19 +43,42 @@ const router = createRouter({
             component: () => import('../views/ActivateView.vue')
         },
         {
-            path: '/about',
-            name: 'about',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import('../views/AboutView.vue')
+            path: '/set_password',
+            name: 'set_password',
+            component: () => import('../views/SetPasswordView.vue'),
+            meta: {requiresAuth: true}  // 只有登录用户才能访问
         },
         {
-            path:'/set_password',
-            name:'set_password',
-            component: () => import('../views/SetPasswordView.vue')
+            path: '/profile',
+            name: 'profile',
+            component: () => import('../views/ProfileView.vue'),
+            meta: {requiresAuth: true}
         }
     ]
+})
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+    const userStore = useUserStore()
+
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!userStore.isLogin) {
+            next({
+                name: 'login',
+                query: {redirect: to.fullPath}
+            })
+        } else {
+            next()
+        }
+    } else if (to.matched.some(record => record.meta.requiresGuest)) {
+        if (userStore.isLogin) {
+            next({name: 'home'})
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
 })
 
 export default router

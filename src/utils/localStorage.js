@@ -7,7 +7,15 @@ const setLocalStorage = (key, value) => {
     localStorage.setItem(key, value);
 }
 
+const setLocalStorageAsync = (key, value) => {
+  return new Promise((resolve) => {
+    localStorage.setItem(key, value);
+    resolve();
+  });
+}
+
 export {
     getLocalStorage,
-    setLocalStorage
+    setLocalStorage,
+    setLocalStorageAsync
 }

@@ -1,4 +1,4 @@
-import {ref, computed} from 'vue'
+import {ref} from 'vue'
 import {defineStore} from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
@@ -13,10 +13,6 @@ export const useUserStore = defineStore('user', () => {
         isLogin.value = status;
     }
 
-    const logout = () => {
-        localStorage.clear()
-        isLogin.value = false;
-    }
 
-    return {isLogin, initializeStore, setLoginStatus, logout}
+    return {isLogin, initializeStore, setLoginStatus}
 })
