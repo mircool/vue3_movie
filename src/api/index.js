@@ -60,3 +60,8 @@ export const setPassword = (data) => {
 export const getUser = () => {
     return instance.get('/api/users/me/');
 };
+
+// 获取电影收藏状态
+export const getMovieFavorStatus = (id) => {
+    return instance.get(`/api/collects/${id}/is_collected/`);
+};

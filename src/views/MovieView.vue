@@ -2,12 +2,19 @@
 import {onMounted, ref} from 'vue'
 import {getMovie} from '@/api'
 import {useRoute} from "vue-router";
+import {useUserStore} from "@/stores/user";
+import {getMovieFavorStatus} from "@/api";
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
+import {errorMessage} from "@/utils/message.js";
 
-const movie = ref({})
-const id = ref(1)
 const route = useRoute()
+const userStore = useUserStore()
+const movie = ref({})
+const id = ref(1) // 电影id
+const collectStatus = ref(false)  // 收藏状态
+const collectText = ref('') // 收藏文字
+
 
 // 获取电影详情
 const getMovieDetail = (id) => {
@@ -18,9 +25,35 @@ const getMovieDetail = (id) => {
   })
 }
 
+// 获取收藏状态,返回true表示已收藏，false表示未收藏
+const getFavorStatus = (id) => {
+  getMovieFavorStatus(id).then(res => {
+    console.log('res', res.data)
+    collectStatus.value = res.data.is_collected
+    if (collectStatus.value) {
+      collectText.value = '取消收藏'
+    } else {
+      collectText.value = '添加收藏'
+    }
+  }).catch(err => {
+    const error = err.response.data
+    for (const key in error) {
+      errorMessage(error[key])
+    }
+  })
+}
+
+
 onMounted(() => {
   id.value = Number(route.params.id)
   getMovieDetail(id.value)
+  // 判断是否收藏，如果是未登录状态，显示文字为添加收藏
+  if (!userStore.isLogin) {
+    collectStatus.value = false
+    collectText.value = '添加收藏'
+  } else {
+    getFavorStatus(id.value)
+  }
 })
 
 </script>
@@ -36,10 +69,12 @@ onMounted(() => {
             <div class="mx-6">
               <div style="min-height: 259px; max-height: 300px; height: 274px">
                 <img class="h-full w-full"
-                     :src="movie.image_url "/>
+                     :src="movie.image_url " alt=""/>
               </div>
-              <button id="collect" class="bg-blue-500 copy text-white w-full px-4 py-1 mt-2 text-sm rounded border">
-                添加收藏
+              <button id="collect"
+                      :class="collectStatus?'bg-gray-700':'bg-blue-500'"
+                      class="bg-blue-500 copy text-white w-full px-4 py-1 mt-2 text-sm rounded border">
+                {{ collectText }}
               </button>
             </div>
             <div id="info" data-movie-id="443">
