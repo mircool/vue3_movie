@@ -54,7 +54,7 @@ const checkAndRefreshToken = () => {
 const logout = () => {
   userStore.setLoginStatus(false);
   localStorage.clear()
-  router.push('/login');
+  router.push('/');
 }
 
 onMounted(() => {

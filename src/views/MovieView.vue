@@ -17,6 +17,7 @@ const movie = ref({})
 const id = ref(1) // 电影id
 const collectStatus = ref(false)  // 收藏状态
 const collectText = ref('') // 收藏文字
+const downloadInfo = ref(false) // 下载信息
 
 
 // 获取电影详情
@@ -76,6 +77,19 @@ const collect_or_cancel = (id) => {
       }
     })
   }
+}
+
+// 检查会员状态
+const check_member_status = () => {
+  if (!userStore.isLogin) {
+    errorMessage('请先登录')
+    return
+  }
+  if (!userStore.isMember) {
+    errorMessage('请先开通会员')
+    return
+  }
+  downloadInfo.value = true
 }
 
 
@@ -146,13 +160,23 @@ onMounted(() => {
               </div>
             </div>
           </div>
-          <div v-if="movie.download_info" id="download_info" class="rounded bg-white mx-4 mt-4 py-6">
+          <div id="download_info" class="rounded bg-white mx-4 mt-4 py-6">
             <h1 class="text-lg mb-6 font-semibold px-6">网盘地址</h1>
-            <div class="px-6">
-              <div>
+            <div v-if="movie.download_info" class="px-6">
+              <div v-if="downloadInfo">
                 {{ movie.download_info }}
               </div>
+              <div v-else>
+                <button @click="check_member_status"
+                        class="bg-blue-500 copy text-white w-full px-4 py-1 mt-2 text-sm rounded border">
+                  查看下载地址
+                </button>
+              </div>
             </div>
+            <div v-else class="px-6">
+              <div>暂无资源</div>
+            </div>
+
           </div>
         </div>
       </div>

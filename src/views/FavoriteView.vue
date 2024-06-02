@@ -44,7 +44,14 @@ onMounted(() => {
                   </div>
                 </div>
                 <p>{{collect.name}}({{collect.release_year}})</p>
-                <p class="text-sm text-primary-200">{{collect.region}}</p>
+                <p v-if="collect.region===1" class="text-sm text-primary-200">中国</p>
+                <p v-else-if="collect.region===2" class="text-sm text-primary-200">美国</p>
+                <p v-else-if="collect.region===3" class="text-sm text-primary-200">日本</p>
+                <p v-else-if="collect.region===4" class="text-sm text-primary-200">韩国</p>
+                <p v-else-if="collect.region===5" class="text-sm text-primary-200">英国</p>
+                <p v-else-if="collect.region===6" class="text-sm text-primary-200">法国</p>
+                <p v-else-if="collect.region===7" class="text-sm text-primary-200">德国</p>
+                <p v-else class="text-sm text-primary-200">其他</p>
               </a>
             </div>
 
