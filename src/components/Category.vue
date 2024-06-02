@@ -52,12 +52,12 @@ onMounted(() => {
         <div
             :class="{hidden:!category.hidden}"
             class="dropdown-item-content absolute top-9 w-32 transition ease-in-out delay-150 z-50 sf-hidden">
-          <ul class="bg-primary-700 py-2 px-4 rounded">
+          <ul class="bg-primary-700 my-2 px-4 rounded">
             <li class="plx-2 py-2">
               <a :href="'/?category='+category.id" class="hover:text-blue-500 block">全部</a>
             </li>
 
-            <li v-for="region in regions" :key="region.id" class="plx-2 py-2">
+            <li v-for="region in regions" :key="region.id" class="plx-2 my-2">
               <a :href="'/?category='+category.id+'&region='+region.id"
                  class="hover:text-blue-500 block h-full w-full">
                 {{ region.name }}

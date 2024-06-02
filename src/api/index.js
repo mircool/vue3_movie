@@ -49,3 +49,8 @@ export const resetPassword = (data) => {
 export const resetPasswordConfirm = (data) => {
     return instance.post('/api/users/reset_password_confirm/', data);
 };
+
+// 设置密码
+export const setPassword = (data) => {
+    return instance.post('/api/users/set_password/', data);
+};

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getLocalStorage} from "@/utils/localStorage.js";
 
 
 /**
@@ -26,11 +27,14 @@ const getCookie = (name) => {
     return null;
 };
 
+// 从localStorage中获取token
+const token = getLocalStorage("token");
 
 const instance = axios.create({
     headers: {
         "Content-Type": "application/json",
         "X-CSRFToken": getCookie("csrftoken"),
+        "Authorization": token ? `Bearer ${token}` : "",
     },
 });
 
