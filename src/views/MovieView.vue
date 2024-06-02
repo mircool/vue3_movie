@@ -2,13 +2,16 @@
 import {onMounted, ref} from 'vue'
 import {getMovie} from '@/api'
 import {useRoute} from "vue-router";
+import {useRouter} from "vue-router";
 import {useUserStore} from "@/stores/user";
-import {getMovieFavorStatus} from "@/api";
+import {getMovieFavorStatus, addCollect, cancelCollect} from "@/api";
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
-import {errorMessage} from "@/utils/message.js";
+import {errorMessage, successMessage} from "@/utils/message.js";
 
 const route = useRoute()
+const router = useRouter()
+
 const userStore = useUserStore()
 const movie = ref({})
 const id = ref(1) // 电影id
@@ -43,6 +46,38 @@ const getFavorStatus = (id) => {
   })
 }
 
+// 添加收藏或取消收藏
+const collect_or_cancel = (id) => {
+  if (!userStore.isLogin) {
+    errorMessage('请先登录')
+    router.push('/login')
+    return
+  }
+  if (collectStatus.value) {
+    cancelCollect(id).then(res => {
+      collectStatus.value = false
+      collectText.value = '添加收藏'
+      successMessage('取消收藏成功')
+    }).catch(err => {
+      const error = err.response.data
+      for (const key in error) {
+        errorMessage(error[key])
+      }
+    })
+  } else {
+    addCollect({'movie_id': id}).then(res => {
+      collectStatus.value = true
+      collectText.value = '取消收藏'
+      successMessage('添加收藏成功')
+    }).catch(err => {
+      const error = err.response.data
+      for (const key in error) {
+        errorMessage(error[key])
+      }
+    })
+  }
+}
+
 
 onMounted(() => {
   id.value = Number(route.params.id)
@@ -71,7 +106,8 @@ onMounted(() => {
                 <img class="h-full w-full"
                      :src="movie.image_url " alt=""/>
               </div>
-              <button id="collect"
+              <button @click="collect_or_cancel(movie.id)"
+                      id="collect"
                       :class="collectStatus?'bg-gray-700':'bg-blue-500'"
                       class="bg-blue-500 copy text-white w-full px-4 py-1 mt-2 text-sm rounded border">
                 {{ collectText }}

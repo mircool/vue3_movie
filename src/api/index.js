@@ -65,3 +65,13 @@ export const getUser = () => {
 export const getMovieFavorStatus = (id) => {
     return instance.get(`/api/collects/${id}/is_collected/`);
 };
+
+// 添加收藏
+export const addCollect = (data) => {
+    return instance.post('/api/collects/', data);
+};
+
+// 取消收藏
+export const cancelCollect = (id) => {
+    return instance.delete(`/api/collects/${id}/`);
+};
