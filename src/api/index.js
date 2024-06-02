@@ -75,3 +75,8 @@ export const addCollect = (data) => {
 export const cancelCollect = (id) => {
     return instance.delete(`/api/collects/${id}/`);
 };
+
+// 获取收藏列表
+export const getCollects = () => {
+    return instance.get('/api/collects/');
+};

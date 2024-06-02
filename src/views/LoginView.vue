@@ -12,7 +12,7 @@ const router = useRouter()
 
 const form = ref({
   username: 'ynyjyz',
-  password: '123456789++'
+  password: '123456789**'
 })
 
 const loginHandler = async () => {

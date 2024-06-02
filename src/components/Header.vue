@@ -11,6 +11,12 @@ const username = ref(getLocalStorage('username')); // 用户名
 
 const userStore = useUserStore()
 
+const is_hidden = ref(false);
+// 个人中心下拉
+const toggle = () => {
+  is_hidden.value = !is_hidden.value;
+}
+
 // 搜索电影
 const search = () => {
   keyword.value = keyword.value.trim();
@@ -88,10 +94,39 @@ onMounted(() => {
             </form>
           </div>
           <div v-if="userStore.isLogin" class="text-white">
-            <span>
-              <a href="/profile">{{ username }}</a>
-            </span>
-            <button @click="logout" class="text-white mx-3">退出</button>
+            <! -- 显示用户名，用户名后面有一个下拉菜单，下拉菜单中有退出登录，个人中心，我的收藏 -->
+            <div
+                @click="toggle"
+                id="userinfo"
+                 class="flex relative hover: cursor-pointer items-center justify-center rounded border border-solid text-white text-lg h-9 text-center">
+              <div id="username" class="px-2">
+                {{username}}
+              </div>
+              <div class="pr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewbox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div
+                  :class="{hidden:!is_hidden}"
+                  class="absolute top-[40px] w-32 transition ease-in-out delay-150 z-50 sf-hidden"
+                   id="userinfo_menu">
+                <ul class="bg-primary-700 my-2 px-4 rounded">
+                  <li class="plx-2 py-2">
+                    <a href='/favorite' class="hover:text-blue-500 block">我的收藏</a>
+                  </li>
+                  <li class="plx-2 py-2">
+                    <a href='/profile' class="hover:text-blue-500 block">个人中心</a>
+                  </li>
+                  <li class="plx-2 py-2">
+                    <a @click="logout" class="hover:text-blue-500 block">退出登录</a>
+                  </li>
+                </ul>
+
+              </div>
+            </div>
           </div>
           <div v-else class="text-white flex-shrink-0 pr-2">
             <a href='/login'>登录</a>
