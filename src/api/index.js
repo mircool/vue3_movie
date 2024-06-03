@@ -90,3 +90,13 @@ export const getMemberCard = () => {
 export const pay = (card_id) => {
     return instance.get(`/api/alipay/?card_id=${card_id}`);
 };
+
+// 获取订单列表
+export const getOrders = (params) => {
+    return instance.get('/api/orders?' + params.toString());
+};
+
+// 订单支付
+export const payOrder = (card_id, order_sn) => {
+    return instance.get(`/api/alipay/?card_id=${card_id}&order_sn=${order_sn}`);
+};

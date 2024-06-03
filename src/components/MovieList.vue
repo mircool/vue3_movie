@@ -4,6 +4,7 @@ import {getMovies} from '@/api'
 import Paging from "@/components/Paging.vue";
 import {useRoute} from "vue-router";
 import router from "@/router/index.js";
+import {errorMessage} from "@/utils/message.js";
 
 const info = ref([])
 const route = useRoute();
@@ -46,7 +47,10 @@ const getMovieList = () => {
   getMovies(params).then(res => {
     info.value = res.data
   }).catch(err => {
-    console.log(err)
+    const error = err.response.data
+    for (let key in error) {
+      errorMessage(error[key])
+    }
   })
 }
 </script>

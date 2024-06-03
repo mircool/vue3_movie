@@ -121,6 +121,12 @@ onMounted(() => {
                     <a href='/profile' class="hover:text-blue-500 block">个人中心</a>
                   </li>
                   <li class="plx-2 py-2">
+                    <a href='/orders' class="hover:text-blue-500 block">我的订单</a>
+                  </li>
+                  <li class="plx-2 py-2">
+                    <a href='/member_card' class="hover:text-blue-500 block">我要购卡</a>
+                  </li>
+                  <li class="plx-2 py-2">
                     <a @click="logout" class="hover:text-blue-500 block">退出登录</a>
                   </li>
                 </ul>

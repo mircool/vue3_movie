@@ -2,7 +2,6 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import MovieList from "@/components/MovieList.vue";
-import Paging from "@/components/Paging.vue";
 
 </script>
 

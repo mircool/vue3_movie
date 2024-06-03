@@ -65,6 +65,11 @@ const router = createRouter({
             name: 'member_card',
             component: () => import('../views/MemberCardView.vue'),
             meta: {requiresAuth: true}
+        },
+        {
+            path: '/orders',
+            name: 'orders',
+            component: () => import('../views/OrdersView.vue'),
         }
     ]
 })
