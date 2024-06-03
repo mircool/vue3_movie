@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from 'vue'
-import {getMovie} from '@/api'
+import {getMovie, getUser} from '@/api'
 import {useRoute} from "vue-router";
 import {useRouter} from "vue-router";
 import {useUserStore} from "@/stores/user";
@@ -85,11 +85,23 @@ const check_member_status = () => {
     errorMessage('请先登录')
     return
   }
-  if (!userStore.isMember) {
-    errorMessage('请先开通会员')
-    return
-  }
-  downloadInfo.value = true
+  getUser().then(res => {
+    console.log('res', res.data)
+    if (res.data.profile.is_upgrade) {
+      downloadInfo.value = true
+    } else {
+      errorMessage('您不是会员，请先开通会员')
+      setTimeout(() => {
+        router.push('/member_card')
+      }, 1000)
+    }
+  }).catch(err => {
+    const error = err.response.data
+    for (const key in error) {
+      errorMessage(error[key])
+    }
+  })
+
 }
 
 

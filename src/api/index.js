@@ -80,3 +80,8 @@ export const cancelCollect = (id) => {
 export const getCollects = () => {
     return instance.get('/api/collects/');
 };
+
+// 获取会员卡信息
+export const getMemberCard = () => {
+    return instance.get('/api/cards/');
+};

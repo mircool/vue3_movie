@@ -59,6 +59,12 @@ const router = createRouter({
             name: 'favorite',
             component: () => import('../views/FavoriteView.vue'),
             meta: {requiresAuth: true}
+        },
+        {
+            path: '/member_card',
+            name: 'member_card',
+            component: () => import('../views/MemberCardView.vue'),
+            meta: {requiresAuth: true}
         }
     ]
 })
