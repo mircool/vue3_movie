@@ -31,7 +31,7 @@ const loginHandler = async () => {
     await setLocalStorageAsync('token', token)
     await setLocalStorageAsync('refreshToken', refreshToken)
     await setLocalStorageAsync('username', username)
-    await setLocalStorageAsync('expiredTime', String(Date.now() + (5 * 60 * 1000)))
+    await setLocalStorageAsync('expiredTime', String(Date.now() + (60 * 60 * 24 * 1000)))
 
     userStore.setLoginStatus(true)
 
