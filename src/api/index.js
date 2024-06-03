@@ -85,3 +85,8 @@ export const getCollects = () => {
 export const getMemberCard = () => {
     return instance.get('/api/cards/');
 };
+
+// 请求支付
+export const pay = (card_id) => {
+    return instance.get(`/api/alipay/?card_id=${card_id}`);
+};

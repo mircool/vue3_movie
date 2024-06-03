@@ -2,7 +2,8 @@
 import {onMounted, ref} from "vue";
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
-import {getMemberCard} from "@/api"
+import {getMemberCard, pay} from "@/api"
+import {errorMessage} from "@/utils/message.js";
 
 const memberCard = ref([
   {
@@ -23,6 +24,19 @@ const fetchMemberCard = () => {
   )
 }
 
+// 购买会员卡
+const buyCard = (id) => {
+  pay(id).then((res) => {
+    // 新窗口打开支付页面
+    window.open(res.data.url)
+  }).catch((err) => {
+    const error = err.response.data
+    for (let key in error) {
+      errorMessage(error[key])
+    }
+  })
+}
+
 onMounted(() => {
   fetchMemberCard()
 })
@@ -39,10 +53,12 @@ onMounted(() => {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div v-for="card in memberCard" :key="card.id" class="bg-white text-gray-700 p-4 rounded-lg w-60">
           <h2 class="text-xl font-bold">名称: {{ card.card_name }}</h2>
-          <p class="text-lg font-semibold" >价格: {{ card.card_price }}</p>
+          <p class="text-lg font-semibold">价格: {{ card.card_price }}</p>
           <p class="text-lg font-semibold">时长: {{ card.duration }}</p>
           <p class="text-lg font-semibold">详情: {{ card.info }}</p>
-          <button class="bg-primary-700 text-white px-4 py-2 rounded-lg mt-2">购买</button>
+          <button @click="buyCard(card.id)"
+                  class="bg-primary-700 text-white px-4 py-2 rounded-lg mt-2">购买
+          </button>
         </div>
       </div>
     </div>
